@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WARP Systems Supply Chain Kennis Quiz (5 Vragen)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Huisstijl en Animatie Stijlen (ongewijzigd) */
+        :root {
+            --warp-green: #43ab34;
+            --warp-dark-gray: #333333;
+            --warp-medium-gray: #666666;
+            --warp-light-gray-bg: #f8f8f8;
+            --warp-border-gray: #e0e0e0;
+            --warp-feedback-green-bg: #eaf6e6;
+            --warp-feedback-green-text: #3c7d2a;
+            --warp-feedback-red-bg: #fdecea;
+            --warp-feedback-red-text: #c82a2a;
+            --warp-header-text-on-green: #000000; /* Zwart op groen */
+            --warp-header-text-on-black: #e0e0e0;
+            --warp-black-header-bg: #000000;
+            --warp-white-border: #ffffff;
+            --top-header-height: 60px;
+            --bottom-header-height: 60px; /* Hoogte van de groene header */
+            --total-header-height: calc(var(--top-header-height) + var(--bottom-header-height));
+            --logo-width: 120px; /* Breedte van het logo */
+            --header-padding-x: 2rem; /* Horizontale padding van de header */
+            --logo-overlap: 10px; /* Hoeveel het logo boven/onder uitsteekt */
+            --logo-total-height: calc(var(--bottom-header-height) + 2 * var(--logo-overlap)); /* Totale hoogte logo incl. overlap */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: var(--warp-dark-gray);
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Header Styling (ongewijzigd) --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative; /* Nodig voor absolute positionering logo */
+        }
+        .header-container { max-width: 1920px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; /* padding: 0 var(--header-padding-x); */ position: relative; height: 100%; box-sizing: border-box; }
+        .top-header { background-color: var(--warp-black-header-bg); color: var(--warp-header-text-on-black); padding: 0.8rem 0; font-size: 0.8rem; min-height: var(--top-header-height); display:flex; align-items:center; }
+        .top-header .header-container { padding: 0 var(--header-padding-x); /* Standaard padding hier */ }
+        .top-header a { text-decoration: none; transition: color 0.2s ease, background-color 0.2s ease, opacity 0.2s ease; }
+        .top-header a:not(.icon-placeholder-link):not(.offerte-button-top):hover { color: #ffffff; }
+        .showroom-link { color: var(--warp-green) !important; display: flex; align-items: center; font-weight: 500; }
+        .showroom-link span { color: var(--warp-green); margin-right: 0.3rem; font-weight: 500; }
+        .showroom-link:hover { color: #3aa129 !important; }
+        .top-header-right { display: flex; align-items: center; gap: 0.75rem; }
+        .search-container { position: relative; }
+        .search-container input { background-color: var(--warp-black-header-bg); border: 2px solid var(--warp-white-border); color: var(--warp-white-border); padding: 0.3rem 0.5rem; padding-right: 2rem; border-radius: 8px; font-size: 0.8rem; min-height: 40px; box-sizing: border-box; height: 30px; }
+        .search-container .search-icon { position: absolute; right: 0.5rem; top: 50%; transform: translateY(-50%); color: var(--warp-white-border); cursor: pointer; }
+        .icon-placeholder-link { background-color: var(--warp-green); color: var(--warp-header-text-on-green); display: inline-flex; align-items: center; justify-content: center; padding: 0.3rem 0.6rem; border-radius: 8px; font-size: 1.1rem; line-height: 1; min-width: 40px; height: 40px; box-sizing: border-box; text-decoration: none; }
+        .icon-placeholder-link:hover { background-color: #5a9a3f; color: var(--warp-header-text-on-green); opacity: 1; }
+        .offerte-button-top { background-color: #ffffff; color: var(--warp-green); padding: 0.3rem 0.8rem; border-radius: 8px; font-weight: 600; font-size: 0.8rem; text-decoration: none; border: 1px solid #ffffff; display: inline-flex; align-items: center; height: 40px; box-sizing: border-box; }
+        .offerte-button-top:hover { background-color: #f0f0f0; color: #3aa129; }
+        .bottom-header { background-color: var(--warp-green); color: var(--warp-header-text-on-green); position: relative; height: var(--bottom-header-height); }
+        /* Aangepaste padding voor ruimte logo */
+        .bottom-header .header-container {
+            min-height: 0;
+            height: 100%;
+            padding-left: calc(var(--logo-width) + var(--header-padding-x) + 1rem); /* Ruimte voor logo + padding + extra */
+            padding-right: var(--header-padding-x);
+            width: 100%; /* Zorg dat het de volledige breedte inneemt */
+        }
+
+        /* --- Logo Styling (AANGEPAST) --- */
+        #logo-container {
+            position: absolute; /* Positioneer t.o.v. header */
+            width: var(--logo-width);
+            height: var(--logo-total-height); /* Hoogte incl. overlap */
+            left: var(--header-padding-x); /* Links met padding */
+            /* Bereken top: start bovenaan groene header, min overlap */
+            top: calc(var(--top-header-height) - var(--logo-overlap));
+            z-index: 55; /* Boven de headers */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Verwijder margin-right */
+        }
+        #logo-container img {
+            display: block;
+            height: auto;
+            object-fit: contain;
+            transform: scale(2); /* NIEUW: schaal de afbeelding naar 200% */
+            transform-origin: center; /* Schaal vanuit het midden */
+        }
+
+        /* --- Navigatie Styling (ongewijzigd) --- */
+        nav.centered-nav {
+            flex-grow: 1;
+            text-align: center;
+            box-sizing: border-box;
+            /* Geen extra padding nodig, wordt door parent container geregeld */
+         }
+        @media (max-width: 1024px) {
+             nav.centered-nav { display: none; }
+             /* Reset padding container en zet hamburger rechts */
+             .bottom-header .header-container {
+                 padding-left: var(--header-padding-x);
+                 padding-right: var(--header-padding-x);
+                 justify-content: flex-end; /* Hamburger naar rechts */
+             }
+             /* Logo blijft links staan door absolute positionering */
+        }
+        nav.centered-nav a { color: var(--warp-header-text-on-green); text-decoration: none; margin: 0 0.8rem; transition: opacity 0.2s ease-in-out; font-size: 1rem; display: inline-block; }
+        nav.centered-nav a.main-link { font-weight: 700; }
+        nav.centered-nav a.secondary-link { font-weight: 400; }
+        nav.centered-nav a:hover { opacity: 0.7; }
+        .hamburger-menu { display: none; align-self: center; }
+        @media (max-width: 1024px) {
+             .hamburger-menu { display: block; }
+             /* justify-content op container regelt positie */
+        }
+        .hamburger-menu button { color: var(--warp-header-text-on-green); font-size: 1.5rem; background: none; border: none; cursor: pointer; }
+        /* --- Einde Header Styling --- */
+
+        /* Achtergrond Gebied Styling (ongewijzigd) */
+        #background-area {
+            min-height: calc(100vh - var(--total-header-height));
+            background-image: url('images/achtergrond.jpg'); /* Zorg dat dit pad klopt */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #e0e0e0; /* Fallback */
+            position: relative;
+            transition: opacity 0.5s ease-out;
+            overflow: hidden;
+        }
+        #background-area.hidden {
+             opacity: 0;
+             pointer-events: none;
+             height: 0;
+             min-height: 0;
+             display: none;
+        }
+
+        /* Decoratieve Groene Widget Styling (ongewijzigd) */
+        #decorative-green-widget {
+            position: absolute;
+            top: 25%;
+            left: 30%;
+            width: 700px;
+            height: 800px;
+            background-color: var(--warp-green);
+            border-radius: 60px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translate(-50%, -50%) rotate(75deg);
+            opacity: 0.90;
+            z-index: 5;
+            pointer-events: none; /* Widget zelf niet klikbaar */
+            overflow: hidden; /* Voorkom dat inhoud buiten de rotatie steekt */
+        }
+        /* Container voor tekst binnen de widget */
+        .widget-text-container {
+            color: black; /* Tekstkleur zwart gemaakt */
+            text-align: left; /* Tekst links uitgelijnd */
+            width: 600px; /* Breedte aangepast */
+            position: absolute; /* Positioneer binnen de widget */
+            top: 50%; /* Startpunt voor transformatie */
+            left: 50%; /* Startpunt voor transformatie */
+            transform: rotate(-75deg) translate(5%, -130%); /* Roteer terug en positioneer (aangepast voor links uitlijnen) */
+            pointer-events: auto; /* Maak tekst selecteerbaar indien nodig */
+        }
+        .widget-heading {
+            font-size: 2rem; /* Iets groter voor de kop */
+            font-weight: 500; /* Standaard gewicht, strong regelt vet */
+            line-height: 1.3;
+            margin-bottom: 1.8rem; /* Ruimte onder de kop */
+        }
+         .widget-heading strong { /* Alleen strong binnen heading vet maken */
+             font-weight: 700;
+         }
+        .widget-paragraph {
+            font-size: 1rem; /* Standaard grootte voor paragraaf */
+            line-height: 1.5;
+            font-weight: 500; /* Zekerstellen dat paragraaf niet vet is */
+        }
+        .widget-paragraph strong { /* Strong in paragraaf vet maken */
+             font-weight: 700;
+        }
+
+
+        /* Container voor knoppen binnen de widget */
+        .widget-button-container {
+            display: flex;
+            gap: 1rem;
+            position: absolute; /* Positioneer binnen de widget */
+            top: 50%; /* Startpunt voor transformatie */
+            left: 50%; /* Startpunt voor transformatie */
+            transform: rotate(-75deg) translate(-18%, -80%); /* Roteer terug en positioneer onder tekst (aangepast voor links uitlijnen tekst) */
+            pointer-events: auto; /* Maak knoppen wel klikbaar */
+            width: max-content; /* Voorkom ongewenste wrap van knoppen */
+        }
+        /* Styling voor de knoppen */
+        .widget-button {
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        .widget-button-white {
+            background-color: white;
+            color: var(--warp-dark-gray);
+        }
+        .widget-button-white:hover {
+            background-color: #f0f0f0;
+        }
+        .widget-button-black {
+            background-color: var(--warp-black-header-bg);
+            color: var(--warp-green);
+        }
+         .widget-button-black:hover {
+            background-color: #333333;
+        }
+
+
+        /* Quiz Container Styling (ongewijzigd) */
+        .quiz-container {
+            max-width: 700px;
+            margin: 0 auto;
+            /* AANGEPAST: Padding boven verkleind */
+            padding: 1.5rem 2.5rem 2.5rem 2.5rem;
+            background-color: var(--warp-light-gray-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border: 1px solid var(--warp-border-gray);
+            transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            position: absolute;
+            /* AANGEPAST: Afstand tot header verkleind */
+            top: calc(var(--total-header-height) + 1.5rem);
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            z-index: 20;
+            width: 90%;
+            display: none;
+        }
+        .quiz-container.visible { display: block; opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+
+        /* Rest van de quiz stijlen (ongewijzigd) */
+        /* AANGEPAST: Marge onder titel iets verkleind (mb-6 naar mb-4) */
+        h1.quiz-title { color: var(--warp-dark-gray); font-weight: 700; }
+        #progress-indicator { color: var(--warp-medium-gray); }
+        #question-text { color: var(--warp-dark-gray); font-weight: 600; line-height: 1.6; }
+        .answer-button { transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.2s ease-in-out; border: 1px solid var(--warp-border-gray); background-color: white; color: var(--warp-dark-gray); text-align: left; padding: 0.85rem 1.1rem; border-radius: 6px; margin-bottom: 0.75rem; width: 100%; cursor: pointer; font-weight: 400; }
+        .answer-button:hover:not(:disabled) { background-color: #f0f0f0; border-color: #cccccc; }
+        .answer-button:disabled { cursor: not-allowed; opacity: 0.9; }
+        .answer-button.correct { background-color: var(--warp-feedback-green-bg); border-color: var(--warp-green); color: var(--warp-feedback-green-text); font-weight: 600; }
+        .answer-button.incorrect { background-color: var(--warp-feedback-red-bg); border-color: var(--warp-feedback-red-text); color: var(--warp-feedback-red-text); font-weight: 600; }
+        .answer-button.show-correct { background-color: var(--warp-feedback-green-bg); border-color: var(--warp-green); color: var(--warp-feedback-green-text); }
+        .feedback { margin-top: 1rem; font-weight: 600; padding: 0.85rem 1.1rem; border-radius: 6px; line-height: 1.5; }
+        .feedback.correct { color: var(--warp-feedback-green-text); background-color: var(--warp-feedback-green-bg); border: 1px solid var(--warp-green); }
+        .feedback.incorrect { color: var(--warp-feedback-red-text); background-color: var(--warp-feedback-red-bg); border: 1px solid var(--warp-feedback-red-text); }
+        .feedback em { color: #555555; font-weight: 400; }
+        #question-image-placeholder { border: none; padding: 0; margin-bottom: 1rem; background-color: transparent; }
+         #question-image-placeholder .image-comparison-container { display: flex; flex-direction: column; gap: 1rem; align-items: center; }
+         @media (min-width: 640px) { #question-image-placeholder .image-comparison-container { flex-direction: row; align-items: center; justify-content: center; } }
+         #question-image-placeholder .comparison-item { flex: 1; border: 1px solid var(--warp-border-gray); padding: 0.5rem; border-radius: 4px; background-color: #ffffff; width: 80%; max-width: 200px; text-align: center; }
+         @media (min-width: 640px) { #question-image-placeholder .comparison-item { width: 45%; } }
+          #question-image-placeholder .comparison-item img { display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 4px; max-height: 140px; object-fit: cover; }
+        .primary-button { background-color: var(--warp-green); color: white; font-weight: 600; padding: 0.85rem 1.5rem; border-radius: 6px; transition: background-color 0.2s ease-in-out; border: none; width: 100%; text-align: center; cursor: pointer; }
+        .primary-button:hover { background-color: #5a9a3f; }
+        #next-button.hidden, #score-area.hidden, #question-image-placeholder.hidden { display: none; }
+        #score-area h2 { color: var(--warp-dark-gray); }
+        #score-message { font-size: 1.1rem; color: var(--warp-medium-gray); min-height: 2.5em; }
+        #score-animation { font-size: 4rem; line-height: 1; margin-bottom: 1rem; min-height: 70px; display: inline-block; }
+        /* CSS Animaties (ongewijzigd) */
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-20px);} 60% {transform: translateY(-10px);} }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes tada { 0% {transform: scale(1);} 10%, 20% {transform: scale(0.9) rotate(-3deg);} 30%, 50%, 70%, 90% {transform: scale(1.1) rotate(3deg);} 40%, 60%, 80% {transform: scale(1.1) rotate(-3deg);} 100% {transform: scale(1) rotate(0);} }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+        /* Animatie klassen (aangepast voor 5 vragen) */
+        .score-anim-5 { animation: tada 1.5s ease-in-out; } /* Voor 5/5 */
+        .score-anim-4 { animation: bounce 1s ease-in-out; } /* Voor 4/5 */
+        .score-anim-3 { animation: pulse 1.5s infinite ease-in-out; } /* Voor 3/5 */
+        .score-anim-2 { animation: float 2s infinite ease-in-out; } /* Voor 2/5 */
+        .score-anim-1 { animation: pulse 2s infinite ease-in-out; } /* Voor 1/5 */
+        .score-anim-0 { animation: pulse 2.5s infinite ease-in-out; } /* Voor 0/5 */
+
+        /* Animatie voor Correct Antwoord (ongewijzigd) */
+        #correct-answer-animation { position: absolute; bottom: 1.5rem; right: 1.5rem; width: 100px; height: auto; opacity: 0; transform: translateX(100%); pointer-events: none; z-index: 100; }
+        #correct-answer-animation img { max-width: 100%; height: auto; }
+        #correct-answer-animation.animate { animation: floatInFadeOut 2s ease-out forwards; }
+        @keyframes floatInFadeOut { 0% { opacity: 0; transform: translateX(100%); } 25% { opacity: 1; transform: translateX(0); } 75% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(0); } }
+
+        /* NIEUW: Animatie voor Fout Antwoord (ongewijzigd) */
+        #incorrect-answer-animation { position: absolute; bottom: 1.5rem; left: 1.5rem; /* Linksonder */ width: 100px; height: auto; opacity: 0; transform: translateX(-100%); /* Start links buiten beeld */ pointer-events: none; z-index: 100; }
+        #incorrect-answer-animation img { max-width: 100%; height: auto; }
+        #incorrect-answer-animation.animate-incorrect { animation: floatInFromLeftFadeOut 2s ease-out forwards; } /* Nieuwe animatieklasse */
+        @keyframes floatInFromLeftFadeOut { /* Nieuwe keyframes */ 0% { opacity: 0; transform: translateX(-100%); } 25% { opacity: 1; transform: translateX(0); } 75% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(0); } }
+
+        /* Sidebar Widget Styling (ongewijzigd) */
+        #sidebar-widget { position: fixed; right: 0; top: 40%; transform: translateY(-50%); width: 160px; background-color: white; border-top-left-radius: 16px; border-top-right-radius: 0px; border-bottom-left-radius: 16px; border-bottom-right-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); padding: 1rem 1rem 0 1rem; text-align: center; z-index: 45; border: 1px solid var(--warp-border-gray); border-bottom: none; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        #widget-score-graphic { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; overflow: hidden; }
+         #widget-score-graphic img { display: block; max-width: 180px; height: auto; object-fit: contain; }
+        #sidebar-widget p { font-size: 0.65rem; font-weight: 600; color: #000000; margin-bottom: 1rem; }
+        #start-quiz-button-widget { background-color: var(--warp-green); color: var(--warp-header-text-on-green); font-weight: 600; padding: 1.25rem 1rem; border-bottom-left-radius: 16px; border-bottom-right-radius: 0px; border-top-left-radius: 0; border-top-right-radius: 0; transition: background-color 0.2s ease-in-out; border: none; width: 160px; display: block; text-align: center; cursor: pointer; font-size: 0.9rem; margin: 0; }
+        #start-quiz-button-widget:hover { background-color: #5a9a3f; }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-header">
+            <div class="header-container">
+                <div>
+                    <a href="#" class="showroom-link mr-40">
+                        <span>✓</span> Maak een showroomafspraak!
+                    </a>
+                </div>
+                <div class="top-header-right">
+                    <div class="search-container hidden md:block ml-60">
+                        <input type="text" placeholder="Zoeken" class="w-46">
+                        <span class="search-icon">⌕</span>
+                    </div>
+                    <a href="#" class="icon-placeholder-link" title="Favorieten">♡</a>
+                    <a href="#" class="icon-placeholder-link" title="Winkelwagen">🛒</a>
+                    <a href="#" class="offerte-button-top">Offerte binnen 1 dag</a>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-header">
+            <div class="header-container">
+                <nav class="centered-nav">
+                    <a href="#" class="main-link">Onze oplossingen</a>
+                    <a href="#" class="main-link">Systemen</a>
+                    <a href="#" class="main-link">Aanleggen</a>
+                    <a href="#" class="main-link">Webshop</a>
+                    <a href="#" class="main-link">WARP Zakelijk</a>
+                    <a href="#" class="secondary-link">Downloads</a>
+                    <a href="#" class="secondary-link">Referenties</a>
+                    <a href="#" class="secondary-link">Over ons</a>
+                    <a href="#" class="secondary-link">Werken bij WARP</a>
+                </nav>
+
+                 <div class="hamburger-menu">
+                     <button type="button">☰</button>
+                 </div>
+            </div>
+        </div>
+         <div id="logo-container">
+             <img src="images/logo.png" alt="WARP Systems Logo"> </div>
+    </header>
+
+    <main id="background-area">
+         <div id="decorative-green-widget">
+             <div class="widget-text-container">
+                 <h3 class="widget-heading">Het meest veelzijdige en complete systeem om iedere ruimte te <strong>verwarmen</strong> en te <strong>koelen</strong>!</h3>
+                 <p class="widget-paragraph">De dunne, energiezuinige systemen van WARP Systems leg je bovenop de ondervloer, zijn razendsnel warm en plaats je eenvoudig binnen 1 dag. <strong>Vloerverwarming is groen, WARP groen</strong></p>
+             </div>
+             <div class="widget-button-container">
+                 <a href="#" class="widget-button widget-button-white">Vloerverwarming binnen één dag</a>
+                 <a href="#" class="widget-button widget-button-black">Offerte binnen 1 werkdag</a>
+             </div>
+        </div>
+    </main>
+
+    <div id="quiz-container" class="quiz-container">
+        <h1 class="text-2xl font-bold text-center mb-2 quiz-title">Supply Chain Quiz</h1>
+        <div id="question-area">
+            <div class="text-sm mb-2" id="progress-indicator">Vraag 1 van 5</div> <p class="text-lg mb-2" id="question-text"></p>
+            <div id="question-image-placeholder" class="hidden">
+                 <div class="image-comparison-container">
+                     <div class="comparison-item">
+                         <img src="images/strakke-layout 2.jpeg" alt="Strakke layout van vloerverwarming leidingen" class="mx-auto my-2 max-w-full h-auto rounded"> </div>
+                     <div class="comparison-item">
+                          <img src="images/authentiek.jpg" alt="Authentieke installatie video screenshot" class="mx-auto my-2 max-w-full h-auto rounded"> </div>
+                 </div>
+            </div>
+            <div id="answer-options"></div>
+            <div id="feedback-area" class="mt-4"></div>
+            <button id="next-button" class="primary-button mt-6 hidden">
+                Volgende Vraag
+            </button>
+        </div>
+        <div id="score-area" class="hidden text-center">
+            <h2 class="text-xl font-bold mb-4">Quiz Voltooid!</h2>
+            <div id="score-animation"></div>
+            <p id="score-message" class="text-lg text-gray-700 mb-4"></p>
+            <p class="text-lg text-gray-700 mb-6" id="score-text">Je score: 0 van de 5</p> <button id="restart-button" class="primary-button">
+                Opnieuw Starten
+            </button>
+        </div>
+        <div id="correct-answer-animation" style="opacity: 0;">
+             <img src="images/mascot.png" alt="Goed gedaan!"> </div>
+         <div id="incorrect-answer-animation" style="opacity: 0;">
+             <img src="images/sad.png" alt="Helaas!"> </div>
+    </div>
+
+    <div id="sidebar-widget">
+        <div id="widget-score-graphic">
+             <img src="images/score.png" alt="Score Grafiek"> </div>
+        <p>Test je Supply Chain Kennis!</p> <button id="start-quiz-button-widget">Maak de quiz</button>
+    </div>
+
+    <script>
+        // --- NIEUWE QUIZ DATA ---
+        const quizData = [
+            {
+                question: "Waarom is een goed functionerende supply chain essentieel voor een bedrijf als WARP?",
+                options: [
+                    "A. Alleen om de transportkosten zo laag mogelijk te houden.",
+                    "B. Vooral om ervoor te zorgen dat de marketingafdeling succesvol is.",
+                    "C. Omdat het direct bijdraagt aan klanttevredenheid, efficiëntie en bedrijfsresultaat.",
+                    "D. Primair om te voldoen aan wettelijke opslagvereisten."
+                ],
+                correctAnswerIndex: 2, // Index van het juiste antwoord (C)
+                explanation: "Een goede supply chain zorgt voor tijdige levering, juiste producten en efficiënte processen, wat allemaal cruciaal is voor klanttevredenheid en het bedrijfsresultaat."
+            },
+            {
+                question: "Transporteurs die werken met een groupagenetwerk (zoals Raben voor buitenland of DHB) combineren vracht van meerdere bedrijven. Wat kan een *mogelijk nadeel* hiervan zijn vergeleken met een directe rit (zoals Wesseling vaak doet)?",
+                options: [
+                    "A. De chauffeur heeft minder kennis van de specifieke producten.",
+                    "B. De kans op vertraging is iets groter omdat er vaker gestopt en mogelijk overgeladen wordt.",
+                    "C. De vrachtwagens zijn meestal veel ouder.",
+                    "D. Het is alleen geschikt voor heel kleine pakketjes die door de brievenbus passen."
+                ],
+                correctAnswerIndex: 1, // Index van het juiste antwoord (B)
+                explanation: "Groupage is efficiënt, maar door de extra stops en mogelijke overslagpunten (hubs) is er een iets grotere kans op vertraging dan bij een directe rit."
+            },
+            {
+                question: "Stel dat de ICT-systemen van WARP (zoals AFAS/WMS) langdurig uitvallen. Wat is een *direct en ernstig gevolg* hiervan voor de *gehele* operationele supply chain?",
+                options: [
+                    "A. Alleen de website zal tijdelijk onbereikbaar zijn.",
+                    "B. Marketing kan geen nieuwe advertenties plaatsen.",
+                    "C. Orders kunnen niet verwerkt worden, picklijsten niet gemaakt, voorraad niet bijgehouden en transport niet aangestuurd, waardoor de keten stilvalt.",
+                    "D. Alleen de finance-afdeling kan geen facturen meer sturen."
+                ],
+                correctAnswerIndex: 2, // Index van het juiste antwoord (C)
+                explanation: "ICT-systemen zijn de ruggengraat die alle stappen verbindt; zonder deze systemen stopt de operationele flow grotendeels."
+            },
+            {
+                question: "Als we bij WARP processen in het magazijn of transport verbeteren (sneller picken, beter verpakken, efficiënter transport), wat is dan het *belangrijkste einddoel* van deze verbeteringen voor de supply chain?",
+                options: [
+                    "A. Alleen het werk voor de magazijnmedewerkers makkelijker maken.",
+                    "B. Ervoor zorgen dat de klant de juiste producten, op het juiste moment en in goede staat ontvangt.",
+                    "C. De ICT-systemen er moderner uit laten zien voor bezoekers.",
+                    "D. De winst van onze transporteurs maximaliseren."
+                ],
+                correctAnswerIndex: 1, // Index van het juiste antwoord (B)
+                explanation: "Alle verbeteringen in de supply chain zijn uiteindelijk gericht op het beter en efficiënter bedienen van de eindklant."
+            },
+            {
+                question: "Waarom is het voor WARP strategisch belangrijk om niet alleen op prijs te selecteren bij leveranciers (bijv. voor buizen of isolatiemateriaal), maar ook te kijken naar levertijd, betrouwbaarheid en flexibiliteit?",
+                options: [
+                    "A. Omdat duurdere leveranciers altijd een betere marketing hebben.",
+                    "B. Om te voldoen aan de eisen van de ICT-afdeling voor systeemintegratie.",
+                    "C. Omdat een lage inkoopprijs waardeloos is als de materialen te laat of incompleet zijn, wat leidt tot productiestops of vertraagde klantleveringen en hogere totaalkosten.",
+                    "D. Zodat de Finance-afdeling minder facturen hoeft te verwerken."
+                ],
+                correctAnswerIndex: 2, // Index van het juiste antwoord (C)
+                explanation: "Leverbetrouwbaarheid en flexibiliteit zijn cruciaal voor de eigen productie- en leveringsplanning. Een lage prijs weegt niet op tegen de kosten van stilstand of vertraging."
+            }
+        ];
+        // --- EINDE NIEUWE QUIZ DATA ---
+
+
+        // Element referenties & Quiz staat variabelen (ongewijzigd)
+        const backgroundArea = document.getElementById('background-area');
+        const quizContainer = document.getElementById('quiz-container');
+        const questionArea = document.getElementById('question-area');
+        const questionTextElement = document.getElementById('question-text');
+        const questionImagePlaceholder = document.getElementById('question-image-placeholder');
+        const answerOptionsElement = document.getElementById('answer-options');
+        const feedbackArea = document.getElementById('feedback-area');
+        const nextButton = document.getElementById('next-button');
+        const scoreArea = document.getElementById('score-area');
+        const scoreTextElement = document.getElementById('score-text');
+        const restartButton = document.getElementById('restart-button');
+        const progressIndicator = document.getElementById('progress-indicator');
+        const scoreAnimationElement = document.getElementById('score-animation');
+        const scoreMessageElement = document.getElementById('score-message');
+        const correctAnswerAnimationElement = document.getElementById('correct-answer-animation');
+        const incorrectAnswerAnimationElement = document.getElementById('incorrect-answer-animation');
+        const startQuizButtonWidget = document.getElementById('start-quiz-button-widget');
+        const widgetElement = document.getElementById('sidebar-widget');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answerSelected = false;
+        let correctAnimationTimeout;
+        let incorrectAnimationTimeout;
+
+        // --- Quiz Logic Functies (ongewijzigd, behalve score berichten/animaties) ---
+        function loadQuestion() {
+            answerSelected = false;
+            const currentQuestion = quizData[currentQuestionIndex];
+            // Gebruikt nu automatisch de lengte van de nieuwe quizData (5)
+            progressIndicator.textContent = `Vraag ${currentQuestionIndex + 1} van ${quizData.length}`;
+            feedbackArea.innerHTML = '';
+            feedbackArea.className = 'mt-4';
+            nextButton.classList.add('hidden');
+            answerOptionsElement.innerHTML = '';
+            questionTextElement.textContent = currentQuestion.question;
+
+            // Reset beide animaties
+            correctAnswerAnimationElement.classList.remove('animate');
+            correctAnswerAnimationElement.style.opacity = '0';
+            incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
+            incorrectAnswerAnimationElement.style.opacity = '0';
+            if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
+            if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
+
+            // Beeldvraag functionaliteit blijft behouden voor flexibiliteit
+            if (currentQuestion.isImageQuestion) {
+                questionImagePlaceholder.classList.remove('hidden');
+            } else {
+                questionImagePlaceholder.classList.add('hidden');
+            }
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                const letter = String.fromCharCode(65 + index);
+                // Verwijder eventuele bestaande letters (A., B., etc.) uit de optie
+                const optionText = /^[A-D]\.\s/.test(option) ? option.substring(3) : option;
+                button.innerHTML = `<span class="font-semibold mr-2">${letter}.</span> ${optionText}`;
+                button.classList.add('answer-button', 'block', 'text-left');
+                button.onclick = () => selectAnswer(index, button);
+                answerOptionsElement.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selectedIndex, selectedButton) {
+            if (answerSelected) return;
+            answerSelected = true;
+
+            const currentQuestion = quizData[currentQuestionIndex];
+            const correct = selectedIndex === currentQuestion.correctAnswerIndex;
+            const correctAnswerText = quizData[currentQuestionIndex].options[currentQuestion.correctAnswerIndex];
+            const correctLetter = String.fromCharCode(65 + currentQuestion.correctAnswerIndex);
+            // Verwijder eventuele bestaande letters uit de correcte optietekst
+            const correctOptionText = /^[A-D]\.\s/.test(correctAnswerText) ? correctAnswerText.substring(3) : correctAnswerText;
+
+             // Reset eventuele lopende timeouts
+             if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
+             if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
+
+            if (correct) {
+                score++;
+                feedbackArea.textContent = 'Correct!';
+                feedbackArea.className = 'feedback correct';
+                selectedButton.classList.add('correct');
+
+                // Start correcte animatie
+                correctAnswerAnimationElement.classList.remove('animate');
+                void correctAnswerAnimationElement.offsetWidth; // Forceer reflow
+                correctAnswerAnimationElement.classList.add('animate');
+
+                // Stop correcte animatie na duur
+                correctAnimationTimeout = setTimeout(() => {
+                     correctAnswerAnimationElement.classList.remove('animate');
+                     correctAnswerAnimationElement.style.opacity = '0';
+                }, 2000); // 2 seconden duur
+
+                // Zorg dat foute animatie verborgen is
+                incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
+                incorrectAnswerAnimationElement.style.opacity = '0';
+
+            } else {
+                feedbackArea.innerHTML = `Fout! Het juiste antwoord was:<br><strong>${correctLetter}. ${correctOptionText}</strong><br><em class="text-sm block mt-1">${currentQuestion.explanation || ''}</em>`;
+                feedbackArea.className = 'feedback incorrect';
+                selectedButton.classList.add('incorrect');
+                 const correctButton = answerOptionsElement.children[currentQuestion.correctAnswerIndex];
+                 if(correctButton) correctButton.classList.add('show-correct');
+
+                 // Start foute animatie
+                 incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
+                 void incorrectAnswerAnimationElement.offsetWidth; // Forceer reflow
+                 incorrectAnswerAnimationElement.classList.add('animate-incorrect');
+
+                 // Stop foute animatie na duur
+                 incorrectAnimationTimeout = setTimeout(() => {
+                      incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
+                      incorrectAnswerAnimationElement.style.opacity = '0';
+                 }, 2000); // 2 seconden duur
+
+                 // Zorg dat correcte animatie verborgen is
+                 correctAnswerAnimationElement.classList.remove('animate');
+                 correctAnswerAnimationElement.style.opacity = '0';
+            }
+
+            Array.from(answerOptionsElement.children).forEach(button => {
+                button.disabled = true;
+            });
+
+            if (currentQuestionIndex < quizData.length - 1) {
+                nextButton.textContent = 'Volgende Vraag';
+                nextButton.classList.remove('hidden');
+            } else {
+                nextButton.textContent = 'Bekijk Score';
+                nextButton.classList.remove('hidden');
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        }
+
+        function showScore() {
+            questionArea.classList.add('hidden');
+            scoreArea.classList.remove('hidden');
+            // Gebruikt nu automatisch de lengte van de nieuwe quizData (5)
+            scoreTextElement.textContent = `Je score: ${score} van de ${quizData.length}`;
+            nextButton.classList.add('hidden');
+
+            // Reset beide animaties bij score weergave
+            correctAnswerAnimationElement.classList.remove('animate');
+            correctAnswerAnimationElement.style.opacity = '0';
+            incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
+            incorrectAnswerAnimationElement.style.opacity = '0';
+            if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
+            if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
+
+            let animationEmoji = '';
+            let animationClass = '';
+            let message = '';
+
+            // Aangepaste berichten en animaties voor een quiz van 5 vragen
+            if (score === 5) { animationEmoji = '🏆'; animationClass = 'score-anim-5'; message = "Perfect! Supply Chain Expert!"; }
+            else if (score === 4) { animationEmoji = '🎉'; animationClass = 'score-anim-4'; message = "Uitstekend! Bijna alles goed!"; }
+            else if (score === 3) { animationEmoji = '👍'; animationClass = 'score-anim-3'; message = "Goed gedaan! Je begrijpt de basis."; }
+            else if (score === 2) { animationEmoji = '🤔'; animationClass = 'score-anim-2'; message = "Oké, er is ruimte voor verbetering."; }
+            else if (score === 1) { animationEmoji = '💡'; animationClass = 'score-anim-1'; message = "Goed begin! Blijf leren."; }
+            else { animationEmoji = '💪'; animationClass = 'score-anim-0'; message = "Volgende keer beter! Geef niet op."; }
+
+
+            scoreAnimationElement.textContent = animationEmoji;
+            scoreAnimationElement.className = 'score-animation';
+             // Kleine vertraging voor score animatie start
+             setTimeout(() => { scoreAnimationElement.classList.add(animationClass); }, 10);
+            scoreMessageElement.textContent = message;
+        }
+
+        // Functie om de quiz opnieuw te starten (ongewijzigd)
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreArea.classList.add('hidden');
+            quizContainer.classList.remove('visible');
+
+            // Reset beide animaties bij herstart
+            correctAnswerAnimationElement.classList.remove('animate');
+            correctAnswerAnimationElement.style.opacity = '0';
+            incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
+            incorrectAnswerAnimationElement.style.opacity = '0';
+            if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
+            if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
+
+            // Wacht tot de quiz container verborgen is, toon dan de achtergrond/widget weer
+            setTimeout(() => {
+                 backgroundArea.classList.remove('hidden'); // Toon achtergrond weer
+                 if(widgetElement) widgetElement.style.display = 'flex'; // Toon widget weer
+                 quizContainer.style.display = 'none';
+            }, 500); // Moet overeenkomen met de transitieduur
+
+            scoreAnimationElement.textContent = '';
+            scoreAnimationElement.className = 'score-animation';
+            scoreMessageElement.textContent = '';
+            nextButton.textContent = 'Volgende Vraag';
+        }
+
+        // Functie om de quiz te starten met transitie (ongewijzigd)
+        function startQuizTransition() {
+             backgroundArea.classList.add('hidden'); // Verberg achtergrond
+             if(widgetElement) widgetElement.style.display = 'none'; // Verberg widget
+
+             quizContainer.style.display = 'block'; // Maak container zichtbaar voor transitie
+             void quizContainer.offsetWidth; // Forceer reflow voor transitie
+             quizContainer.classList.add('visible'); // Start transitie (opacity/transform)
+             questionArea.classList.remove('hidden'); // Zorg dat de vragen weer zichtbaar zijn
+             scoreArea.classList.add('hidden'); // Zorg dat de score verborgen is
+             loadQuestion(); // Laad de eerste vraag
+        }
+
+        // Initialiseer de quiz applicatie wanneer de pagina geladen is (ongewijzigd)
+        function initializeQuizApp() {
+            quizContainer.style.display = 'none'; // Start met quiz verborgen
+            quizContainer.classList.remove('visible');
+            backgroundArea.classList.remove('hidden'); // Start met achtergrond zichtbaar
+            if(widgetElement) widgetElement.style.display = 'flex'; // Start met widget zichtbaar
+
+            // Start met beide animaties verborgen
+            correctAnswerAnimationElement.style.opacity = '0';
+            incorrectAnswerAnimationElement.style.opacity = '0';
+
+            questionArea.classList.remove('hidden'); // Zorg dat vragen standaard zichtbaar zijn (binnen quiz container)
+            scoreArea.classList.add('hidden'); // Zorg dat score standaard verborgen is
+
+            // Event listeners voor knoppen
+            startQuizButtonWidget.addEventListener('click', startQuizTransition);
+            nextButton.addEventListener('click', nextQuestion);
+            restartButton.addEventListener('click', restartQuiz);
+        }
+
+        // Voer initialisatie uit na het laden van de DOM
+        document.addEventListener('DOMContentLoaded', initializeQuizApp);
+
+    </script>
+
+</body>
+</html>
