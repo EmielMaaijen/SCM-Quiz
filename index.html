@@ -76,7 +76,7 @@
             width: 100%; /* Zorg dat het de volledige breedte inneemt */
         }
 
-        /* --- Logo Styling (AANGEPAST) --- */
+        /* --- Logo Styling (ongewijzigd) --- */
         #logo-container {
             position: absolute; /* Positioneer t.o.v. header */
             width: var(--logo-width);
@@ -378,13 +378,16 @@
     <div id="quiz-container" class="quiz-container">
         <h1 class="text-2xl font-bold text-center mb-2 quiz-title">Supply Chain Quiz</h1>
         <div id="question-area">
-            <div class="text-sm mb-2" id="progress-indicator">Vraag 1 van 5</div> <p class="text-lg mb-2" id="question-text"></p>
+            <div class="text-sm mb-2" id="progress-indicator">Vraag 1 van 5</div>
+            <p class="text-lg mb-2" id="question-text"></p>
             <div id="question-image-placeholder" class="hidden">
                  <div class="image-comparison-container">
                      <div class="comparison-item">
-                         <img src="images/strakke-layout 2.jpeg" alt="Strakke layout van vloerverwarming leidingen" class="mx-auto my-2 max-w-full h-auto rounded"> </div>
+                         <img src="images/strakke-layout 2.jpeg" alt="Strakke layout van vloerverwarming leidingen" class="mx-auto my-2 max-w-full h-auto rounded">
+                     </div>
                      <div class="comparison-item">
-                          <img src="images/authentiek.jpg" alt="Authentieke installatie video screenshot" class="mx-auto my-2 max-w-full h-auto rounded"> </div>
+                          <img src="images/authentiek.jpg" alt="Authentieke installatie video screenshot" class="mx-auto my-2 max-w-full h-auto rounded">
+                     </div>
                  </div>
             </div>
             <div id="answer-options"></div>
@@ -397,26 +400,31 @@
             <h2 class="text-xl font-bold mb-4">Quiz Voltooid!</h2>
             <div id="score-animation"></div>
             <p id="score-message" class="text-lg text-gray-700 mb-4"></p>
-            <p class="text-lg text-gray-700 mb-6" id="score-text">Je score: 0 van de 5</p> <button id="restart-button" class="primary-button">
+            <p class="text-lg text-gray-700 mb-6" id="score-text">Je score: 0 van de 5</p>
+            <button id="restart-button" class="primary-button">
                 Opnieuw Starten
             </button>
         </div>
         <div id="correct-answer-animation" style="opacity: 0;">
-             <img src="images/mascot.png" alt="Goed gedaan!"> </div>
+             <img src="images/mascot.png" alt="Goed gedaan!">
+        </div>
          <div id="incorrect-answer-animation" style="opacity: 0;">
-             <img src="images/sad.png" alt="Helaas!"> </div>
+             <img src="images/sad.png" alt="Helaas!">
+         </div>
     </div>
 
     <div id="sidebar-widget">
         <div id="widget-score-graphic">
-             <img src="images/score.png" alt="Score Grafiek"> </div>
-        <p>Test je Supply Chain Kennis!</p> <button id="start-quiz-button-widget">Maak de quiz</button>
+             <img src="images/score.png" alt="Score Grafiek">
+        </div>
+        <p>Test je Supply Chain Kennis!</p>
+        <button id="start-quiz-button-widget">Maak de quiz</button>
     </div>
 
     <script>
-        // --- NIEUWE QUIZ DATA ---
+        // --- BIJGEWERKTE QUIZ DATA (Vraag 2 vervangen) ---
         const quizData = [
-            {
+            { // Vraag 1 (Oorspronkelijke vraag 1)
                 question: "Waarom is een goed functionerende supply chain essentieel voor een bedrijf als WARP?",
                 options: [
                     "A. Alleen om de transportkosten zo laag mogelijk te houden.",
@@ -424,21 +432,21 @@
                     "C. Omdat het direct bijdraagt aan klanttevredenheid, efficiëntie en bedrijfsresultaat.",
                     "D. Primair om te voldoen aan wettelijke opslagvereisten."
                 ],
-                correctAnswerIndex: 2, // Index van het juiste antwoord (C)
+                correctAnswerIndex: 2,
                 explanation: "Een goede supply chain zorgt voor tijdige levering, juiste producten en efficiënte processen, wat allemaal cruciaal is voor klanttevredenheid en het bedrijfsresultaat."
             },
-            {
-                question: "Transporteurs die werken met een groupagenetwerk (zoals Raben voor buitenland of DHB) combineren vracht van meerdere bedrijven. Wat kan een *mogelijk nadeel* hiervan zijn vergeleken met een directe rit (zoals Wesseling vaak doet)?",
+            { // Vraag 2 (Vervangen door alternatieve vraag 5)
+                question: "Waarom is een duidelijke en tijdige communicatie tussen de afdelingen Logistiek en Installatie van cruciaal belang, vooral bij leveringen voor specifieke projecten op locatie?",
                 options: [
-                    "A. De chauffeur heeft minder kennis van de specifieke producten.",
-                    "B. De kans op vertraging is iets groter omdat er vaker gestopt en mogelijk overgeladen wordt.",
-                    "C. De vrachtwagens zijn meestal veel ouder.",
-                    "D. Het is alleen geschikt voor heel kleine pakketjes die door de brievenbus passen."
+                    "A. Om te bepalen wie de factuur voor de installatie betaalt.",
+                    "B. Om ervoor te zorgen dat de *juiste* materialen op het *juiste* moment op de *juiste* bouwlocatie aankomen, zodat de installateur volgens planning kan werken.",
+                    "C. Om de marketingfoto's van het project af te stemmen.",
+                    "D. Om te beslissen welke kleur tape er op de zending wordt gebruikt."
                 ],
                 correctAnswerIndex: 1, // Index van het juiste antwoord (B)
-                explanation: "Groupage is efficiënt, maar door de extra stops en mogelijke overslagpunten (hubs) is er een iets grotere kans op vertraging dan bij een directe rit."
+                explanation: "Een soepele installatie valt of staat bij de correcte en tijdige aanlevering van materialen; afstemming is hierbij key."
             },
-            {
+            { // Vraag 3 (Oorspronkelijke vraag 3)
                 question: "Stel dat de ICT-systemen van WARP (zoals AFAS/WMS) langdurig uitvallen. Wat is een *direct en ernstig gevolg* hiervan voor de *gehele* operationele supply chain?",
                 options: [
                     "A. Alleen de website zal tijdelijk onbereikbaar zijn.",
@@ -446,10 +454,10 @@
                     "C. Orders kunnen niet verwerkt worden, picklijsten niet gemaakt, voorraad niet bijgehouden en transport niet aangestuurd, waardoor de keten stilvalt.",
                     "D. Alleen de finance-afdeling kan geen facturen meer sturen."
                 ],
-                correctAnswerIndex: 2, // Index van het juiste antwoord (C)
+                correctAnswerIndex: 2,
                 explanation: "ICT-systemen zijn de ruggengraat die alle stappen verbindt; zonder deze systemen stopt de operationele flow grotendeels."
             },
-            {
+            { // Vraag 4 (Oorspronkelijke vraag 4)
                 question: "Als we bij WARP processen in het magazijn of transport verbeteren (sneller picken, beter verpakken, efficiënter transport), wat is dan het *belangrijkste einddoel* van deze verbeteringen voor de supply chain?",
                 options: [
                     "A. Alleen het werk voor de magazijnmedewerkers makkelijker maken.",
@@ -457,22 +465,22 @@
                     "C. De ICT-systemen er moderner uit laten zien voor bezoekers.",
                     "D. De winst van onze transporteurs maximaliseren."
                 ],
-                correctAnswerIndex: 1, // Index van het juiste antwoord (B)
+                correctAnswerIndex: 1,
                 explanation: "Alle verbeteringen in de supply chain zijn uiteindelijk gericht op het beter en efficiënter bedienen van de eindklant."
             },
-            {
-                question: "Waarom is het voor WARP strategisch belangrijk om niet alleen op prijs te selecteren bij leveranciers (bijv. voor buizen of isolatiemateriaal), maar ook te kijken naar levertijd, betrouwbaarheid en flexibiliteit?",
+            { // Vraag 5 (Oorspronkelijke vraag 5)
+                question: "Waarom is het voor WARP strategisch belangrijk om niet alleen op prijs te selecteren bij leveranciers, maar ook te kijken naar levertijd, betrouwbaarheid en flexibiliteit?",
                 options: [
                     "A. Omdat duurdere leveranciers altijd een betere marketing hebben.",
                     "B. Om te voldoen aan de eisen van de ICT-afdeling voor systeemintegratie.",
                     "C. Omdat een lage inkoopprijs waardeloos is als de materialen te laat of incompleet zijn, wat leidt tot productiestops of vertraagde klantleveringen en hogere totaalkosten.",
                     "D. Zodat de Finance-afdeling minder facturen hoeft te verwerken."
                 ],
-                correctAnswerIndex: 2, // Index van het juiste antwoord (C)
+                correctAnswerIndex: 2,
                 explanation: "Leverbetrouwbaarheid en flexibiliteit zijn cruciaal voor de eigen productie- en leveringsplanning. Een lage prijs weegt niet op tegen de kosten van stilstand of vertraging."
             }
         ];
-        // --- EINDE NIEUWE QUIZ DATA ---
+        // --- EINDE BIJGEWERKTE QUIZ DATA ---
 
 
         // Element referenties & Quiz staat variabelen (ongewijzigd)
@@ -501,11 +509,10 @@
         let correctAnimationTimeout;
         let incorrectAnimationTimeout;
 
-        // --- Quiz Logic Functies (ongewijzigd, behalve score berichten/animaties) ---
+        // --- Quiz Logic Functies (ongewijzigd) ---
         function loadQuestion() {
             answerSelected = false;
             const currentQuestion = quizData[currentQuestionIndex];
-            // Gebruikt nu automatisch de lengte van de nieuwe quizData (5)
             progressIndicator.textContent = `Vraag ${currentQuestionIndex + 1} van ${quizData.length}`;
             feedbackArea.innerHTML = '';
             feedbackArea.className = 'mt-4';
@@ -513,7 +520,6 @@
             answerOptionsElement.innerHTML = '';
             questionTextElement.textContent = currentQuestion.question;
 
-            // Reset beide animaties
             correctAnswerAnimationElement.classList.remove('animate');
             correctAnswerAnimationElement.style.opacity = '0';
             incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
@@ -521,7 +527,6 @@
             if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
             if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
 
-            // Beeldvraag functionaliteit blijft behouden voor flexibiliteit
             if (currentQuestion.isImageQuestion) {
                 questionImagePlaceholder.classList.remove('hidden');
             } else {
@@ -531,7 +536,6 @@
             currentQuestion.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 const letter = String.fromCharCode(65 + index);
-                // Verwijder eventuele bestaande letters (A., B., etc.) uit de optie
                 const optionText = /^[A-D]\.\s/.test(option) ? option.substring(3) : option;
                 button.innerHTML = `<span class="font-semibold mr-2">${letter}.</span> ${optionText}`;
                 button.classList.add('answer-button', 'block', 'text-left');
@@ -548,10 +552,8 @@
             const correct = selectedIndex === currentQuestion.correctAnswerIndex;
             const correctAnswerText = quizData[currentQuestionIndex].options[currentQuestion.correctAnswerIndex];
             const correctLetter = String.fromCharCode(65 + currentQuestion.correctAnswerIndex);
-            // Verwijder eventuele bestaande letters uit de correcte optietekst
             const correctOptionText = /^[A-D]\.\s/.test(correctAnswerText) ? correctAnswerText.substring(3) : correctAnswerText;
 
-             // Reset eventuele lopende timeouts
              if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
              if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
 
@@ -561,18 +563,15 @@
                 feedbackArea.className = 'feedback correct';
                 selectedButton.classList.add('correct');
 
-                // Start correcte animatie
                 correctAnswerAnimationElement.classList.remove('animate');
-                void correctAnswerAnimationElement.offsetWidth; // Forceer reflow
+                void correctAnswerAnimationElement.offsetWidth;
                 correctAnswerAnimationElement.classList.add('animate');
 
-                // Stop correcte animatie na duur
                 correctAnimationTimeout = setTimeout(() => {
                      correctAnswerAnimationElement.classList.remove('animate');
                      correctAnswerAnimationElement.style.opacity = '0';
-                }, 2000); // 2 seconden duur
+                }, 2000);
 
-                // Zorg dat foute animatie verborgen is
                 incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
                 incorrectAnswerAnimationElement.style.opacity = '0';
 
@@ -583,18 +582,15 @@
                  const correctButton = answerOptionsElement.children[currentQuestion.correctAnswerIndex];
                  if(correctButton) correctButton.classList.add('show-correct');
 
-                 // Start foute animatie
                  incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
-                 void incorrectAnswerAnimationElement.offsetWidth; // Forceer reflow
+                 void incorrectAnswerAnimationElement.offsetWidth;
                  incorrectAnswerAnimationElement.classList.add('animate-incorrect');
 
-                 // Stop foute animatie na duur
                  incorrectAnimationTimeout = setTimeout(() => {
                       incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
                       incorrectAnswerAnimationElement.style.opacity = '0';
-                 }, 2000); // 2 seconden duur
+                 }, 2000);
 
-                 // Zorg dat correcte animatie verborgen is
                  correctAnswerAnimationElement.classList.remove('animate');
                  correctAnswerAnimationElement.style.opacity = '0';
             }
@@ -624,11 +620,9 @@
         function showScore() {
             questionArea.classList.add('hidden');
             scoreArea.classList.remove('hidden');
-            // Gebruikt nu automatisch de lengte van de nieuwe quizData (5)
             scoreTextElement.textContent = `Je score: ${score} van de ${quizData.length}`;
             nextButton.classList.add('hidden');
 
-            // Reset beide animaties bij score weergave
             correctAnswerAnimationElement.classList.remove('animate');
             correctAnswerAnimationElement.style.opacity = '0';
             incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
@@ -640,7 +634,6 @@
             let animationClass = '';
             let message = '';
 
-            // Aangepaste berichten en animaties voor een quiz van 5 vragen
             if (score === 5) { animationEmoji = '🏆'; animationClass = 'score-anim-5'; message = "Perfect! Supply Chain Expert!"; }
             else if (score === 4) { animationEmoji = '🎉'; animationClass = 'score-anim-4'; message = "Uitstekend! Bijna alles goed!"; }
             else if (score === 3) { animationEmoji = '👍'; animationClass = 'score-anim-3'; message = "Goed gedaan! Je begrijpt de basis."; }
@@ -651,19 +644,16 @@
 
             scoreAnimationElement.textContent = animationEmoji;
             scoreAnimationElement.className = 'score-animation';
-             // Kleine vertraging voor score animatie start
              setTimeout(() => { scoreAnimationElement.classList.add(animationClass); }, 10);
             scoreMessageElement.textContent = message;
         }
 
-        // Functie om de quiz opnieuw te starten (ongewijzigd)
         function restartQuiz() {
             currentQuestionIndex = 0;
             score = 0;
             scoreArea.classList.add('hidden');
             quizContainer.classList.remove('visible');
 
-            // Reset beide animaties bij herstart
             correctAnswerAnimationElement.classList.remove('animate');
             correctAnswerAnimationElement.style.opacity = '0';
             incorrectAnswerAnimationElement.classList.remove('animate-incorrect');
@@ -671,12 +661,11 @@
             if (correctAnimationTimeout) { clearTimeout(correctAnimationTimeout); }
             if (incorrectAnimationTimeout) { clearTimeout(incorrectAnimationTimeout); }
 
-            // Wacht tot de quiz container verborgen is, toon dan de achtergrond/widget weer
             setTimeout(() => {
-                 backgroundArea.classList.remove('hidden'); // Toon achtergrond weer
-                 if(widgetElement) widgetElement.style.display = 'flex'; // Toon widget weer
+                 backgroundArea.classList.remove('hidden');
+                 if(widgetElement) widgetElement.style.display = 'flex';
                  quizContainer.style.display = 'none';
-            }, 500); // Moet overeenkomen met de transitieduur
+            }, 500);
 
             scoreAnimationElement.textContent = '';
             scoreAnimationElement.className = 'score-animation';
@@ -684,43 +673,42 @@
             nextButton.textContent = 'Volgende Vraag';
         }
 
-        // Functie om de quiz te starten met transitie (ongewijzigd)
         function startQuizTransition() {
-             backgroundArea.classList.add('hidden'); // Verberg achtergrond
-             if(widgetElement) widgetElement.style.display = 'none'; // Verberg widget
+             backgroundArea.classList.add('hidden');
+             if(widgetElement) widgetElement.style.display = 'none';
 
-             quizContainer.style.display = 'block'; // Maak container zichtbaar voor transitie
-             void quizContainer.offsetWidth; // Forceer reflow voor transitie
-             quizContainer.classList.add('visible'); // Start transitie (opacity/transform)
-             questionArea.classList.remove('hidden'); // Zorg dat de vragen weer zichtbaar zijn
-             scoreArea.classList.add('hidden'); // Zorg dat de score verborgen is
-             loadQuestion(); // Laad de eerste vraag
+             quizContainer.style.display = 'block';
+             void quizContainer.offsetWidth;
+             quizContainer.classList.add('visible');
+             questionArea.classList.remove('hidden');
+             scoreArea.classList.add('hidden');
+             loadQuestion();
         }
 
-        // Initialiseer de quiz applicatie wanneer de pagina geladen is (ongewijzigd)
         function initializeQuizApp() {
-            quizContainer.style.display = 'none'; // Start met quiz verborgen
+            quizContainer.style.display = 'none';
             quizContainer.classList.remove('visible');
-            backgroundArea.classList.remove('hidden'); // Start met achtergrond zichtbaar
-            if(widgetElement) widgetElement.style.display = 'flex'; // Start met widget zichtbaar
+            backgroundArea.classList.remove('hidden');
+            if(widgetElement) widgetElement.style.display = 'flex';
 
-            // Start met beide animaties verborgen
             correctAnswerAnimationElement.style.opacity = '0';
             incorrectAnswerAnimationElement.style.opacity = '0';
 
-            questionArea.classList.remove('hidden'); // Zorg dat vragen standaard zichtbaar zijn (binnen quiz container)
-            scoreArea.classList.add('hidden'); // Zorg dat score standaard verborgen is
+            questionArea.classList.remove('hidden');
+            scoreArea.classList.add('hidden');
 
-            // Event listeners voor knoppen
             startQuizButtonWidget.addEventListener('click', startQuizTransition);
             nextButton.addEventListener('click', nextQuestion);
             restartButton.addEventListener('click', restartQuiz);
         }
 
-        // Voer initialisatie uit na het laden van de DOM
         document.addEventListener('DOMContentLoaded', initializeQuizApp);
 
     </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
